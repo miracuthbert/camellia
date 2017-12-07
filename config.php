@@ -9,8 +9,8 @@
     /**
      * App Settings
      */
-    define("APP_NAME", "Camellia");
-    define("APP_CURRENCY", "KShs.");
+    define("APP_NAME", "Camellia Restaurant");
+    define("APP_CURRENCY", "Rwf.");
     define("APP_URL", "/camellia");
 
     /**
