@@ -83,7 +83,7 @@ if (!function_exists('string_get')) {
 
 if (!function_exists('session_has')) {
     /**
-     * Generate the URL to a named route.
+     * Check if the passed string/key exists in a session.
      *
      * @param $key
      * @param $item
@@ -111,7 +111,7 @@ if (!function_exists('session_has')) {
 
 if (!function_exists('session_get')) {
     /**
-     * Get the passed key value.
+     * Get the passed key value from session.
      *
      * @param $key
      * @param $item
@@ -138,7 +138,7 @@ if (!function_exists('session_get')) {
 
 if (!function_exists('session_pop')) {
     /**
-     * Generate the URL to a named route.
+     * Get the passed key value from session and remove it.
      *
      * @param $key
      * @param $item
