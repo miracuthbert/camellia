@@ -65,9 +65,9 @@
             $_SESSION['errors']['password'] = "Password should be 6 - 20 characters long.";
         }
 
-        //check if passwords match
-        if (!is_email($email)) {
-            $_SESSION['errors']['email'] = "Email is invalid.";
+        if (count($_SESSION['errors']) > 0) {
+            //back to register with error
+            return header("Location: ../register.php");
         }
 
         //check if passwords match
@@ -83,17 +83,19 @@
         //hash password
         $password = password_hash($password, PASSWORD_BCRYPT);
 
-        //check email
+        //using prepared statements to prevent sql injection
+        //check if email exists
         $stmt = $con->prepare("SELECT * FROM `users` WHERE `email` = ?");
-        $stmt->bind_param('i', $email);
+        $stmt->bind_param('s', $email);
         $stmt->execute();
         $stmt->store_result();
+        $result = $stmt->get_result();
 
-        if ($stmt->num_rows() == 0) {
+        if ($result->num_rows == 0) {
 
             //insert
             $stmt = $con->prepare("INSERT INTO `users` (`first_name`, `last_name`, `email`, `phone`, `password`) VALUES (?, ?, ?, ?, ?)");
-            $stmt->bind_param('sssss', $first_name, $last_name, $email, $phone, $password);
+            $stmt->bind_param('sssis', $first_name, $last_name, $email, $phone, $password);
             $stmt->execute();
 
             //TODO: auto login user
@@ -106,7 +108,7 @@
             //set success message
             $_SESSION['success'] = "Sign up successful. Login to proceed.";
 
-            //back to register with error
+            //redirect to login with success
             return header("Location: ../login.php");
 
         } else {
