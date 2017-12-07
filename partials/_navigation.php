@@ -34,7 +34,6 @@
                     <li><a href="<?php echo route("auth/register.php"); ?>">Register</a></li>
 
                 <?php } else { ?>
-                    <li><a href="<?php echo route("dashboard.php"); ?>">My Dashboard</a></li>
 
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"
@@ -44,6 +43,9 @@
                         </a>
 
                         <ul class="dropdown-menu">
+                            <li><a href="<?php echo route("admin/dashboard.php"); ?>">Admin Panel</a></li>
+                            <li><a href="<?php echo route("dashboard.php"); ?>">My Dashboard</a></li>
+                            <li role="separator" class="divider"></li>
                             <li>
                                 <a href="<?php echo route("logout.php"); ?>"
                                    onclick="event.preventDefault();
