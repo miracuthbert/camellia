@@ -25,10 +25,12 @@
                         <form class="form-horizontal" method="POST"
                               action="<?php echo route('auth/scripts/register.php'); ?>">
 
+                            <!-- Use session has to check if field has an error then add `has-error` class -->
                             <div class="form-group<?php echo session_has('errors', 'first_name') ? ' has-error' : ''; ?>">
                                 <label for="first_name" class="col-md-4 control-label">First Name</label>
 
                                 <div class="col-md-6">
+                                    <!-- Use session pop to fetch field's old value -->
                                     <input id="first_name" type="text" class="form-control" name="first_name"
                                            value="<?php echo session_pop('old', 'first_name'); ?>" required autofocus>
 
