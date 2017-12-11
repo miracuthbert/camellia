@@ -3,6 +3,8 @@
     include_once("helpers.php");
     include_once("functions.php");
     unauthenticated();
+
+    $orders = userOrders();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,9 +22,59 @@
             <div class="panel-heading">Dashboard</div>
 
             <div class="panel-body">
-                <?php
-                    print_r($_SESSION['user']);
-                ?>
+                <h3>My Orders</h3>
+                <p class="text-muted">A list of orders sorted by latest first</p>
+                <hr>
+
+                <div class="row hidden-xs">
+                    <div class="col-sm-3">
+                        <strong>Pickup/Delivery Date</strong>
+                    </div>
+                    <div class="col-sm-3">
+                        <strong>Created At Date</strong>
+                    </div>
+                    <div class="col-sm-2">
+                        <strong>Items</strong>
+                    </div>
+                    <div class="col-sm-2">
+                        <strong>Total Price</strong>
+                    </div>
+                    <div class="col-sm-2">
+                        &nbsp;
+                    </div>
+                </div>
+                <hr>
+                <?php foreach ($orders as $order) { ?>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <a href="<?php echo route("user/order.php?order={$order['id']}")?>">
+                                <?php echo $order['booked_at']; ?>
+                            </a>
+                        </div>
+                        <div class="col-sm-3">
+                            <?php echo $order['created_at']; ?>
+                        </div>
+                        <div class="col-sm-2">
+                            <span class="lead"><?php echo orderItemsCount($order['id']); ?></span>
+                        </div>
+                        <div class="col-sm-2">
+                            <?php echo APP_CURRENCY; ?>
+                            <span class="lead"><?php echo orderTotal($order['id']); ?></span>
+                        </div>
+                        <div class="col-sm-2">
+                            <ul class="list-inline">
+                                <?php if (!isset($order['paid_at'])) { ?>
+                                <li>
+                                    <a href="">
+                                        Cancel Order
+                                    </a>
+                                </li>
+                                <?php } ?>
+                            </ul>
+                        </div>
+                    </div>
+                    <hr>
+                <?php }?>
             </div>
         </div>
     </div>
