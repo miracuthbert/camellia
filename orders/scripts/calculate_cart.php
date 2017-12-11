@@ -13,6 +13,13 @@
         $foodPrices = [];
         $orderPrices = [];
 
+        //check if no items are selected then redirect back
+        if(!isset($orders) || !isset($orderItems)) {
+            $_SESSION['error'] = "Add at least one item to cart.";
+
+            return header("Location: " . route("orders/menu.php"));
+        }
+
         foreach ($orders as $key => $order) {
             //find food
             $food = food($order);
