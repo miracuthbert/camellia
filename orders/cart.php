@@ -97,12 +97,12 @@ $foods = session_get('cart', 'items');
                                         <i class="fa fa-shopping-basket"></i> Menu
                                     </a>
 
-                                    <button type="submit" name="updateCart" class="btn btn-success"
+                                    <button name="updateCart" class="btn btn-success"
                                             style="margin-right: 7px;" value="1">
                                         <i class="fa fa-refresh"></i> Update Cart
                                     </button>
 
-                                    <button type="submit" class="btn btn-primary" style="margin-right: 7px;">
+                                    <button type="submit" name="storeCart" class="btn btn-primary" style="margin-right: 7px;" value="1">
                                         <i class="fa fa-check"></i> Submit Order
                                     </button>
                                 </div>

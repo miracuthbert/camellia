@@ -11,6 +11,8 @@
 
             //remove cart from session
             unset($_SESSION['cart']);
+            unset($_SESSION['old']);
+
 
             $_SESSION['success'] = "Your cart has been emptied. You can start adding new items again.";
 

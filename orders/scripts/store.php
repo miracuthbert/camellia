@@ -14,10 +14,12 @@ if (isset($_POST)) {
     $orders = $_POST['order'];
     $orderQtys = $_POST['order_quantity'];
 
-    if(isset($_POST['updateCart'])) {  //check if only update cart
+    if(isset($_POST['updateCart']) && $_POST['updateCart']) {  //check if only update cart
 
         //calculate cart
         calculateCart($orders, $orderQtys);
+
+        return header("Location: " . route("orders/cart.php"));
     }
 
     //catch user
@@ -33,6 +35,7 @@ if (isset($_POST)) {
         return header("Location: " . route("orders/menu.php"));
     }
 
+    //activate mysqli reporting
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
     try {
         $con->autocommit(FALSE); //turn on transactions
@@ -57,6 +60,7 @@ if (isset($_POST)) {
 
         //unset cart
         unset($_SESSION['cart']);
+        unset($_SESSION['old']);
 
         $stmt->close();
         $con->autocommit(TRUE); //turn off transactions + commit queued queries
