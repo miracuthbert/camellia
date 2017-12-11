@@ -43,16 +43,36 @@ if (!function_exists('hasRoles')) {
 
         if (isset($user)) {
 
-            //default (has role and it has not expired)
-            if (!isset($role)) {
-                $expired = null;
-                $stmt = $con->prepare("SELECT * FROM `user_roles` WHERE `id` = ? AND `expired_at` = ?");
-                $stmt->bind_param("ib", $user, $expired);
+            if (isset($role)) { //with role
+                $row = [];
+
+                //get role
+                $_stmt = $con->prepare("SELECT * FROM `roles` WHERE `slug` = ? AND `slug` IS NOT NULL");
+                $_stmt->bind_param("s", $role);
+                $_stmt->execute();
+
+                //get result
+                $result = $_stmt->get_result();
+
+                //check if role exists
+                if ($result->num_rows == 1) {
+                    $row = $result->fetch_assoc();
+
+                    if (($expired == true)) {   //with role but expired
+                        $stmt = $con->prepare("SELECT * FROM `user_roles` WHERE `user_id` = ?  AND `role_id` = ? AND `expired_at` IS NOT NULL LIMIT 1");
+                    } else {
+                        $stmt = $con->prepare("SELECT * FROM `user_roles` WHERE `user_id` = ?  AND `role_id` = ? AND `expired_at` IS NULL LIMIT 1");
+                    }
+
+                    $stmt->bind_param("ii", $user, $row['id']);
+                } else {
+                    $roleable = false;
+                }
+
+            } else {//default (has role and it has not expired)
+                $stmt = $con->prepare("SELECT * FROM `user_roles` WHERE `user_id` = ? AND `expired_at` IS NULL");
+                $stmt->bind_param("i", $user);
             }
-
-            //with role
-
-            //with role not null and expired
 
             $stmt->execute();
             $result = $stmt->get_result();
