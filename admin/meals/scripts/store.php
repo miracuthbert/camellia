@@ -57,7 +57,7 @@ if (isset($_POST)) {
         unset($_SESSION['old']);
 
         //set success message
-        $_SESSION['success'] = "Meal added successfully.";
+        $_SESSION['success'] = "Food added successfully.";
 
         //redirect to index with success
         return header("Location: " . route('admin/meals/index.php'));

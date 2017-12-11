@@ -40,8 +40,7 @@
                         <ul class="dropdown-menu pull-right">
                             <li>
                                 <a href="<?php echo route('admin/categories/create.php'); ?>">Category</a>
-                                <a href="<?php echo route('admin/meals/create.php'); ?>">Meal</a>
-                                <a href="<?php echo route('admin/beverages/create.php'); ?>">Beverages</a>
+                                <a href="<?php echo route('admin/meals/create.php'); ?>">Meal/Beverages</a>
                                 <a href="">User</a>
                             </li>
                         </ul>

@@ -7,6 +7,7 @@ include_once("functions.php");
 
 unauthenticated();
 $categories = categories(['status' => true, 'slug' => "meals"]);
+$categories = array_merge($categories, categories(['status' => true, 'slug' => "drinks"]));
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,7 +28,7 @@ $categories = categories(['status' => true, 'slug' => "meals"]);
 
             <div class="col-sm-9">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Add Meal</div>
+                    <div class="panel-heading">Add Meal/Beverage</div>
 
                     <div class="panel-body">
                         <form class="form-horizontal" method="POST"

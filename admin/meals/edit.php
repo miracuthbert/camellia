@@ -7,6 +7,7 @@ include_once("functions.php");
 
 unauthenticated();
 $categories = categories(['status' => true, 'slug' => "meals"]);
+$categories = array_merge($categories, categories(['status' => true, 'slug' => "drinks"]));
 
 $meal = $_GET['meal'];
 
@@ -19,10 +20,10 @@ $meal = meal($meal);
 </head>
 <body>
 <div id="app">
-    <?php include_once('../../partials/_navigation.php'); ?>
+    <?php include_once('../partials/_navigation.php'); ?>
 
     <div class="container">
-        <?php include_once('../partials/_alerts.php'); ?>
+        <?php include_once('../../partials/_alerts.php'); ?>
 
         <div class="row">
             <div class="col-sm-3">
@@ -31,7 +32,7 @@ $meal = meal($meal);
 
             <div class="col-sm-9">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Edit Meal</div>
+                    <div class="panel-heading">Edit Meal/Beverage</div>
 
                     <div class="panel-body">
                         <form class="form-horizontal" method="POST"

@@ -58,19 +58,17 @@
             unset($_SESSION['old']);
 
             //set success message
-            $_SESSION['success'] = "Meal updated successfully.";
+            $_SESSION['success'] = "Food updated successfully.";
 
             //redirect to index with success
             return header("Location: " . route('admin/meals/index.php'));
         }
 
         //TODO: Comment line below if you want clean error
-        $error = $stmt->error;
-
-        $stmt->close();
+//        $error = $stmt->error;
 
         //error
-        $_SESSION['error'] = "Failed updating meal. Error: {$error}";
+        $_SESSION['info'] = "No changes made.";
 
         $stmt->close();
 

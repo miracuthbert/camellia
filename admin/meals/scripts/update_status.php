@@ -20,7 +20,7 @@ if (isset($_POST) && (isset($_POST['_method']) && ($_POST['_method'] == "PUT")))
     if ($stmt->affected_rows === 1) {
 
         //set success message
-        $_SESSION['success'] = "Meal status updated successfully.";
+        $_SESSION['success'] = "Food status updated successfully.";
 
         //back to register with error
         return header("Location: " . route('admin/meals/index.php'));
