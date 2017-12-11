@@ -10,16 +10,20 @@
         //catch orders
         $orders = $_POST['order'];
         $orderItems = $_POST['order_quantity'];
+        $foodPrices = [];
         $orderPrices = [];
 
         foreach ($orders as $key => $order) {
             //find food
             $food = food($order);
 
+            //push to food prices
+            array_push($foodPrices, $food['price']);
+
             //calculate total price
             $price = $food['price'] * $orderItems[$key];
 
-            //push to price
+            //push to order price
             array_push($orderPrices, $price);
 
 //            echo "{$key} . {$order} | {$orderItems[$key]} * {$food['price']} = ({$price}) .<br/>";
@@ -29,6 +33,7 @@
         $_SESSION['cart']['orders'] = $orders;
         $_SESSION['cart']['orderQty'] = $orderItems;
         $_SESSION['cart']['orderPrices'] = $orderPrices;
+        $_SESSION['cart']['foodPrices'] = $foodPrices;
 
         return header("Location: " . route("orders/cart.php"));
     }
