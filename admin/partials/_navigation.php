@@ -75,7 +75,8 @@
 
             <a role="button" href="<?php echo route('admin/orders/index.php'); ?>"
                class="btn btn-primary navbar-btn pull-right">
-                <i class="fa fa-shopping-basket"></i> Orders <sup class="badge">0</sup>
+                <i class="fa fa-shopping-basket"></i> Orders
+                <span class="badge"><?php echo count(pendingOrders()) > 0 ? count(pendingOrders()) : ''; ?></span>
             </a>
 
         </div>
