@@ -73,7 +73,8 @@
                 <?php } ?>
             </ul>
 
-            <a role="button" href="<?php echo route('orders/index.php'); ?>" class="btn btn-primary navbar-btn pull-right">
+            <a role="button" href="<?php echo route('admin/orders/index.php'); ?>"
+               class="btn btn-primary navbar-btn pull-right">
                 <i class="fa fa-shopping-basket"></i> Orders <sup class="badge">0</sup>
             </a>
 
