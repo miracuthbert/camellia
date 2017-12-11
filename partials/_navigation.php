@@ -43,7 +43,11 @@
                         </a>
 
                         <ul class="dropdown-menu">
-                            <li><a href="<?php echo route("admin/dashboard.php"); ?>">Admin Panel</a></li>
+                            <?php if (hasRoles(auth()['id'])) { ?>
+                                <li>
+                                    <a href="<?php echo route("admin/dashboard.php"); ?>">Admin Panel</a>
+                                </li>
+                            <?php } ?>
                             <li><a href="<?php echo route("dashboard.php"); ?>">My Dashboard</a></li>
                             <li role="separator" class="divider"></li>
                             <li>
@@ -63,7 +67,8 @@
                 <?php } ?>
             </ul>
 
-            <a role="button" href="<?php echo route('orders/menu.php'); ?>" class="btn btn-success navbar-btn pull-right">
+            <a role="button" href="<?php echo route('orders/menu.php'); ?>"
+               class="btn btn-success navbar-btn pull-right">
                 <i class="fa fa-shopping-basket"></i> Place an Order
             </a>
         </div>
