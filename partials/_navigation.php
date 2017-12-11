@@ -67,10 +67,24 @@
                 <?php } ?>
             </ul>
 
-            <a role="button" href="<?php echo route('orders/menu.php'); ?>"
-               class="btn btn-success navbar-btn pull-right">
-                <i class="fa fa-shopping-basket"></i> Place an Order
-            </a>
+            <?php if (session_has('cart')) { ?>
+                <a role="button" href="<?php echo route('orders/menu.php'); ?>"
+                   class="btn btn-success navbar-btn pull-right" style="margin-right: 7px;">
+                    <i class="fa fa-shopping-basket"></i> Menu
+                </a>
+
+                <a role="button" href="<?php echo route('orders/cart.php'); ?>"
+                   class="btn btn-success navbar-btn pull-right" style="margin-right: 7px;">
+                    <i class="fa fa-shopping-cart"></i> Cart
+<!--                    <span class="badge">--><?php //echo APP_CURRENCY; ?><!-- --><?php //echo cartTotal(); ?><!--</span>-->
+                    <sup class="badge"><?php echo session_get('cart', 'qty'); ?></sup>
+                </a>
+            <?php } else { ?>
+                <a role="button" href="<?php echo route('orders/menu.php'); ?>"
+                   class="btn btn-success navbar-btn pull-right" style="margin-right: 7px;">
+                    <i class="fa fa-shopping-basket"></i> Place an Order
+                </a>
+            <?php } ?>
         </div>
     </div>
 </nav>
