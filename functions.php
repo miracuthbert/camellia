@@ -26,6 +26,48 @@ if (!function_exists('unauthenticated')) {
     }
 }
 
+if (!function_exists('hasRoles')) {
+    /**
+     * Check if user has roles.
+     * @param $user
+     * @param null $role
+     * @param bool $expired
+     * @return bool
+     */
+    function hasRoles($user, $role = null, $expired = false)
+    {
+        global $con;
+
+        //holds
+        $roleable = false;
+
+        if (isset($user)) {
+
+            //default (has role and it has not expired)
+            if (!isset($role)) {
+                $expired = null;
+                $stmt = $con->prepare("SELECT * FROM `user_roles` WHERE `id` = ? AND `expired_at` = ?");
+                $stmt->bind_param("ib", $user, $expired);
+            }
+
+            //with role
+
+            //with role not null and expired
+
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            if ($result->num_rows >= 1) {
+                $roleable = true;
+            }
+
+            $stmt->close();
+        }
+
+        return $roleable;
+    }
+}
+
 if (!function_exists('foods')) {
     /**
      * Fetch foods.
@@ -74,9 +116,7 @@ if (!function_exists('orderFoods')) {
 
         $true = true;
 
-        if (!isset($_SESSION['cart']['orders'])
-            && !isset($_SESSION['cart']['orderQty'])
-            && !isset($_SESSION['cart']['orderPrices'])) {
+        if (!isset($_SESSION['cart']['orders'])) {
             $_SESSION['error'] = "Please add at least one item to cart, before checkout";
 
             return header("Location: " . route("orders/menu.php"));
@@ -129,7 +169,7 @@ if (!function_exists('cartTotal')) {
     {
         $total = 0;
 
-        if(isset($_SESSION['cart']['orders']) && isset($_SESSION['cart']['orderPrices'])) {
+        if (isset($_SESSION['cart']['orders']) && isset($_SESSION['cart']['orderPrices'])) {
             foreach ($_SESSION['cart']['orderPrices'] as $orderPrice) {
                 $total += $orderPrice;
             }
@@ -174,5 +214,122 @@ if (!function_exists('food')) {
         $stmt->close();
 
         return $row;
+    }
+}
+
+if (!function_exists('orderTotal')) {
+    /**
+     * Fetch total for passed order.
+     * @param $order
+     * @return mixed|null
+     */
+    function orderTotal($order)
+    {
+
+        global $con;
+
+        $row = [];
+
+        if (!isset($order)) {
+            return null;
+        }
+
+        $stmt = $con->prepare("SELECT
+                                        SUM(
+                                            (
+                                                `order_items`.`price` * `order_items`.`quantity`
+                                            )
+                                        ) AS `order_total`
+                                    FROM
+                                        `orders`
+                                    INNER JOIN `order_items` 
+                                    WHERE 
+                                    `orders`.`id` = `order_items`.`order_id` 
+                                    AND `order_id` = ? LIMIT 1");
+        $stmt->bind_param("i", $order);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows == 1) {
+            $row = $result->fetch_assoc();
+        }
+
+        $stmt->close();
+
+        return $row['order_total'];
+    }
+}
+
+if (!function_exists('orderItemsCount')) {
+    /**
+     * Fetch item count for passed order.
+     * @param $order
+     * @return mixed|null
+     */
+    function orderItemsCount($order)
+    {
+
+        global $con;
+
+        $row = [];
+
+        if (!isset($order)) {
+            return null;
+        }
+
+        $stmt = $con->prepare("SELECT
+                                        COUNT(`order_items`.id) AS `order_items_count`
+                                    FROM
+                                        `orders`
+                                    INNER JOIN `order_items` 
+                                    WHERE 
+                                    `orders`.`id` = `order_items`.`order_id` 
+                                    AND `order_id` = ? LIMIT 1");
+        $stmt->bind_param("i", $order);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows == 1) {
+            $row = $result->fetch_assoc();
+        }
+
+        $stmt->close();
+
+        return $row['order_items_count'];
+    }
+}
+
+if (!function_exists('userOrders')) {
+    /**
+     * Fetch orders placed by user (logged in user).
+     */
+    function userOrders()
+    {
+
+        global $con;
+
+        $rows = [];
+
+        $user = auth();
+
+        //redirect to login if auth failed
+        if (!isset($user)) {
+            return header("Location: " . route("auth/login.php"));
+        }
+
+        $userId = $user['id'];
+
+        $stmt = $con->prepare("SELECT * FROM `orders` WHERE `user_id` = ? ORDER BY `created_at` DESC");
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $rows = $result->fetch_all(MYSQLI_BOTH);
+        }
+
+        $stmt->close();
+
+        return $rows;
     }
 }
