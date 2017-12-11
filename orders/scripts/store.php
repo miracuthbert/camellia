@@ -3,11 +3,22 @@
 include_once "../../config.php";
 include_once "../../helpers.php";
 include_once "../../functions.php";
+include_once "calculate_cart.php";
 
 global $con;
 
 if (isset($_POST)) {
     $_SESSION['old'] = $_POST;
+
+    //catch input
+    $orders = $_POST['order'];
+    $orderQtys = $_POST['order_quantity'];
+
+    if(isset($_POST['updateCart'])) {  //check if only update cart
+
+        //calculate cart
+        calculateCart($orders, $orderQtys);
+    }
 
     //catch user
     $user = auth();
@@ -18,16 +29,9 @@ if (isset($_POST)) {
     }
 
     //redirect if cart empty
-    if (!isset($_SESSION['cart']['orders']) &&
-        !isset($_SESSION['cart']['foodPrices']) &&
-        !isset($_SESSION['cart']['orderQty'])) {
+    if (!isset($_SESSION['cart']['items'])) {
         return header("Location: " . route("orders/menu.php"));
     }
-
-    //catch orders
-    $orders = $_SESSION['cart']['orders'];
-    $orderItems = $_SESSION['cart']['orderQty'];
-    $prices = $_SESSION['cart']['foodPrices'];
 
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
     try {
@@ -43,12 +47,11 @@ if (isset($_POST)) {
         $stmt->bind_param("iidi", $orderId, $foodId, $price, $quantity);
 
         //loop through orders
-        foreach ($orders as $key => $order) {
-            $orderId = $cart;
-            $foodId = $order;
-            $price = $prices[$key];
-            $foodId = $order;
-            $quantity = $orderItems[$key];
+        foreach ($orders as $key => $item) {
+            $orderId = $cart;   //order id
+            $foodId = $item;   //food/item id
+            $price = $_SESSION['cart']['items'][$item]['price'];
+            $quantity = $orderQtys[$key];
             $stmt->execute();
         }
 
