@@ -4,7 +4,7 @@ include_once("../helpers.php");
 include_once("../functions.php");
 unauthenticated();
 
-$foods = orderFoods();
+$foods = session_get('cart', 'items');
 
 ?>
 <!DOCTYPE html>
@@ -33,23 +33,21 @@ $foods = orderFoods();
                         <div class="panel-body">
                             <div class="form-group">
                                 <div class="col-sm-2"></div>
-                                <div class="col-sm-4"><strong>Name</strong></div>
+                                <div class="col-sm-3"><strong>Name</strong></div>
                                 <div class="col-sm-2"><strong>Price</strong></div>
                                 <div class="col-sm-2"><strong>Qty.</strong></div>
                                 <div class="col-sm-2"><strong>Total</strong></div>
+                                <div class="col-sm-1"></div>
                             </div>
                             <hr>
 
                             <?php foreach ($foods as $key => $food) { ?>
                                 <div class="form-group">
                                     <div class="col-sm-2">
-                                        <input type="hidden" name="order[]" id="food-<?php echo $food['id']; ?>"
-                                               value="<?php echo $food['id']; ?>">
-
                                         <img class="media-object" src="<?php echo $food['image']; ?>" alt="image"
                                              class="img-responsive">
                                     </div>
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-3">
                                         <h4 data-toggle="tooltip" title="<?php echo $food['details']; ?>">
                                             <?php echo $food['name']; ?>
                                             <i class="fa fa-info"></i>
@@ -59,17 +57,31 @@ $foods = orderFoods();
                                         <?php echo APP_CURRENCY; ?> <strong><?php echo $food['price']; ?></strong>
                                     </div>
                                     <div class="col-sm-2">
-                                        <strong><?php echo $_SESSION['cart']['orderQty'][$key]; ?></strong>
+                                        <input type="number" name="order_quantity[]"
+                                               id="food-<?php echo $food['id']; ?>"
+                                               class="form-control" value="<?php echo $food['qty']; ?>">
                                     </div>
                                     <div class="col-sm-2">
                                         <?php echo APP_CURRENCY; ?>
-                                        <strong><?php echo $_SESSION['cart']['orderPrices'][$key]; ?></strong>
+                                        <strong><?php echo $food['totalPrice']; ?></strong>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <input type="hidden" name="order[]" id="food-<?php echo $food['id']; ?>"
+                                               value="<?php echo $food['id']; ?>">
+                                        <a href="">Remove</a>
                                     </div>
                                 </div>
                             <?php } ?>
                         </div>
 
                         <div class="panel-footer">
+                            <div class="row">
+                                <div class="col-sm-3 col-sm-offset-9">
+                                    <?php echo APP_CURRENCY; ?> <strong><?php echo cartTotal(); ?></strong>
+                                </div>
+                            </div>
+                            <hr>
+
                             <div class="row">
                                 <div class="col-sm-4">
                                     <a role="button" href="<?php echo route('orders/scripts/empty_cart.php'); ?>"
@@ -79,10 +91,18 @@ $foods = orderFoods();
                                     </a>
                                 </div>
 
-                                <div class="col-sm-2 col-sm-offset-6">
-                                    <?php echo APP_CURRENCY; ?> <strong><?php echo cartTotal(); ?></strong>
+                                <div class="col-sm-5 col-sm-offset-3">
+                                    <a role="button" href="<?php echo route('orders/menu.php'); ?>"
+                                       class="btn btn-success" style="margin-right: 7px;">
+                                        <i class="fa fa-shopping-basket"></i> Menu
+                                    </a>
 
-                                    <button type="submit" class="btn btn-primary">
+                                    <button type="submit" name="updateCart" class="btn btn-success"
+                                            style="margin-right: 7px;" value="1">
+                                        <i class="fa fa-refresh"></i> Update Cart
+                                    </button>
+
+                                    <button type="submit" class="btn btn-primary" style="margin-right: 7px;">
                                         <i class="fa fa-check"></i> Submit Order
                                     </button>
                                 </div>
