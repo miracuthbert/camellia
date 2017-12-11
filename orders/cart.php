@@ -22,7 +22,7 @@ $foods = orderFoods();
             <div class="col-sm-12">
 
                 <form class="form-horizontal" method="POST"
-                      action="<?php /*echo route('orders/scripts/calculate_cart.php'); */ ?>"
+                      action="<?php echo route('orders/scripts/store.php'); ?>"
                       enctype="application/x-www-form-urlencoded">
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -72,8 +72,9 @@ $foods = orderFoods();
                         <div class="panel-footer">
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <a role="button" href="<?php echo route('orders/menu.php'); ?>"
-                                       class="btn btn-warning">
+                                    <a role="button" href="<?php echo route('orders/scripts/empty_cart.php'); ?>"
+                                       class="btn btn-warning"
+                                       onclick="event.preventDefault();document.getElementById('cancel-order-form').submit();">
                                         <i class="fa fa-shopping-basket"></i> Cancel and Place New Order
                                     </a>
                                 </div>
@@ -88,6 +89,12 @@ $foods = orderFoods();
                             </div>
                         </div>
                     </div>
+                </form>
+
+                <!-- Cancel Order Form -->
+                <form id="cancel-order-form"
+                      action="<?php echo route('orders/scripts/empty_cart.php'); ?>" method="POST"
+                      style="display: none;">
                 </form>
             </div>
         </div>
