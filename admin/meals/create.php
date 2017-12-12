@@ -2,10 +2,10 @@
 include_once("../../config.php");
 include_once("../../helpers.php");
 include_once("../../functions.php");
-include_once("../categories/functions.php");
-include_once("functions.php");
+include_once("../functions.php");
 
 unauthenticated();
+
 $categories = categories(['status' => true, 'slug' => "meals"]);
 $categories = array_merge($categories, categories(['status' => true, 'slug' => "drinks"]));
 ?>

@@ -2,7 +2,7 @@
 include_once("../../config.php");
 include_once("../../helpers.php");
 include_once("../../functions.php");
-include_once("functions.php");
+include_once("../functions.php");
 
 unauthenticated();
 $orders = orders();

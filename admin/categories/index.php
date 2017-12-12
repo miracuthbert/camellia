@@ -2,10 +2,11 @@
 include_once("../../config.php");
 include_once("../../helpers.php");
 include_once("../../functions.php");
-include_once("functions.php");
-unauthenticated();
-$categories = categories();
+include_once("../functions.php");
 
+unauthenticated();
+
+$categories = categories();
 ?>
 <!DOCTYPE html>
 <html lang="en">
