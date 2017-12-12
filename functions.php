@@ -124,7 +124,7 @@ if (!function_exists('hasRoles')) {
 if (!function_exists('getRoles')) {
     /**
      * Get the user's roles/specified role.
-     * 
+     *
      * @param $user
      * @param null $role
      * @param bool $expired
