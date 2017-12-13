@@ -32,7 +32,8 @@ $categories = array_merge($categories, categories(['status' => true, 'slug' => "
 
                     <div class="panel-body">
                         <form class="form-horizontal" method="POST"
-                              action="<?php echo route('admin/meals/scripts/store.php'); ?>">
+                              action="<?php echo route('admin/meals/scripts/store.php'); ?>"
+                              enctype="multipart/form-data">
 
                             <div class="form-group<?php echo session_has('errors', 'name') ? ' has-error' : ''; ?>">
                                 <label for="name" class="col-md-4 control-label">Name</label>

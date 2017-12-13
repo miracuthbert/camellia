@@ -36,7 +36,8 @@ $meal = meal($meal);
 
                     <div class="panel-body">
                         <form class="form-horizontal" method="POST"
-                              action="<?php echo route("admin/meals/scripts/update.php?meal={$meal['id']}"); ?>">
+                              action="<?php echo route("admin/meals/scripts/update.php?meal={$meal['id']}"); ?>"
+                              enctype="multipart/form-data">
 
                             <input type="hidden" name="_id" id="_id" value="<?php echo $meal['id']; ?>">
                             <input type="hidden" name="_method" id="_method" value="PUT">
@@ -63,7 +64,8 @@ $meal = meal($meal);
                                     <div class="input-group">
                                         <span class="input-group-addon"><?php echo APP_CURRENCY; ?></span>
                                         <input id="price" type="text" class="form-control" name="price"
-                                               value="<?php echo string_get(session_pop('old', 'price'), $meal['price']); ?>" required>
+                                               value="<?php echo string_get(session_pop('old', 'price'), $meal['price']); ?>"
+                                               required>
                                     </div>
 
                                     <?php if (session_has('errors', 'price')) ; ?>
@@ -79,6 +81,8 @@ $meal = meal($meal);
                                 <div class="col-md-6">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-image"></i></span>
+                                        <input type="hidden" name="oldImage" id="oldImage"
+                                               value="<?php echo $meal['image']; ?>">
                                         <input id="image" type="file" class="form-control" name="image"
                                                value="<?php echo session_pop('old', 'image'); ?>">
                                     </div>

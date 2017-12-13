@@ -15,7 +15,8 @@
         $name = $_POST['name'];
         $price = $_POST['price'];
         $category = $_POST['category'];
-        $image = $_POST['image'];
+        $image = $_FILES['image'];
+        $imageOld = $_POST['oldImage'];
         $details = $_POST['details'];
         $status = $_POST['status'];
 
@@ -39,13 +40,19 @@
             $_SESSION['errors']['status'] = "Status is required.";
         }
 
+        //check if image is not null
+        if(isset($image)) {
+            //image upload
+            $imagePath = imageUpload($image, "foods");
+        }
+
+        //check if image path is not null else set it to old path
+        $imagePath = isset($imagePath) ? $imagePath : $imageOld;
+
         if (isset($_SESSION['errors']) && count($_SESSION['errors']) > 0) {
             //back to create with error
             return header("Location: " . route("admin/meals/edit.php?meal={$id}"));
         }
-
-        //image upload
-        $imagePath = null;
 
         //save
         $stmt = $con->prepare("UPDATE `foods` SET `name` = ?, `category_id` = ?, `details` = ?, `image` = ?, `price` = ?, `usable` = ? WHERE `id` = ?");

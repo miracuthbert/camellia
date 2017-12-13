@@ -14,7 +14,7 @@ if (isset($_POST)) {
     $name = $_POST['name'];
     $price = $_POST['price'];
     $category = $_POST['category'];
-    $image = $_POST['image'];
+    $image = $_FILES['image'];
     $details = $_POST['details'];
     $status = $_POST['status'];
 
@@ -38,13 +38,19 @@ if (isset($_POST)) {
         $_SESSION['errors']['status'] = "Status is required.";
     }
 
+    //check if image is not null
+    if(isset($image)) {
+        //image upload
+        $imagePath = imageUpload($image, "foods");
+    }
+
     if (isset($_SESSION['errors']) && count($_SESSION['errors']) > 0) {
         //back to create with error
         return header("Location: " . route('admin/meals/create.php'));
     }
 
-    //image upload
-    $imagePath = null;
+    //check if image path is not null else set it to null
+    $imagePath = isset($imagePath) ? $imagePath : null;
 
     //save
     $stmt = $con->prepare("INSERT INTO `foods` (`name`, `category_id`, `details`, `image`, `price`, `usable`) VALUES (?, ?, ?, ?, ?, ?)");
