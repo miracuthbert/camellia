@@ -46,7 +46,10 @@ $meals = meals();
                                 <tbody>
                                 <?php foreach ($meals as $meal) { ?>
                                     <tr>
-                                        <td><?php echo $meal['image']; ?></td>
+                                        <td>
+                                            <img src="<?php echo route($meal['image']); ?>" alt=""
+                                                 class="img-responsive" width="100px" height="100px">
+                                        </td>
                                         <td><?php echo $meal['name']; ?></td>
                                         <td>
                                             <a href="<?php echo route("admin/meals/index.php?category={$meal['categorySlug']}"); ?>">
