@@ -27,7 +27,7 @@
             <li><a href="<?php echo route('admin/meals/index.php'); ?>">Meals</a></li>
             <li><a href="<?php echo route('admin/meals/index.php?category=drinks'); ?>">Beverages</a></li>
             <li><a href="">Roles</a></li>
-            <li><a href="">Users</a></li>
+            <li><a href="<?php echo route('admin/users/index.php'); ?>">Users</a></li>
         </ul>
     </div>
 </div>
