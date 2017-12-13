@@ -431,23 +431,26 @@ if (!function_exists('orderItemsCount')) {
 
 if (!function_exists('userOrders')) {
     /**
-     * Fetch orders placed by user (logged in user).
+     * Fetch orders placed by a given user /(logged in user).
+     *
+     * @param null $user
+     * @return array|mixed|void
      */
-    function userOrders()
+    function userOrders($user = null)
     {
 
         global $con;
 
         $rows = [];
 
-        $user = auth();
+        $user = isset($user) ? $user : auth();
 
         //redirect to login if auth failed
         if (!isset($user)) {
             return header("Location: " . route("auth/login.php"));
         }
 
-        $userId = $user['id'];
+        $userId = isset($user['id']) ? $user['id'] : $user;
 
         $stmt = $con->prepare("SELECT * FROM `orders` WHERE `user_id` = ? ORDER BY `created_at` DESC");
         $stmt->bind_param("i", $userId);
