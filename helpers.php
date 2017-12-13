@@ -1,5 +1,7 @@
 <?php
 
+require_once "config.php";
+
 if (!function_exists('route')) {
     /**
      * Generate the URL to a named route.
@@ -258,5 +260,62 @@ if (!function_exists('slug')) {
         $str = preg_replace('/[^\w\d\-\ ]/', '', $str);
         $str = str_replace(' ', '-', $str);
         return preg_replace('/\-{2,}/', '-', $str);
+    }
+}
+
+if (!function_exists('imageUpload')) {
+    /**
+     * Upload passed image to passed directory.
+     *
+     * @param $image
+     * @param $directory
+     * @return mixed
+     */
+    function imageUpload($image, $directory = "foods")
+    {
+        $imagePath = null;
+
+        if (isset($image) && isset($directory)) {
+            $errors = array();
+            $file_name = $image['name'];
+            $file_size = $image['size'];
+            $file_tmp = $image['tmp_name'];
+            $file_type = $image['type'];
+            $file_ext = strtolower(end(explode('.', $image['name'])));
+
+            $extensions = ["jpeg", "jpg", "png"];
+
+            if (in_array($file_ext, $extensions) === false) {
+                $_SESSION['errors']['image_ext'] = "extension not allowed, please choose a JPEG or PNG file.";
+            }
+
+            if ($file_size > 2097152) {
+                $_SESSION['errors']['image_size'] = 'File size must be exactly 2 MB';
+            }
+
+            if (empty($errors) == true) {
+
+                //storage path
+                $uploadPath = ROOT . DS . APP_DIR . "/public/uploads/{$directory}/";
+
+                //url path
+                $path = "public/uploads/{$directory}/";
+
+                //name
+                $name = explode('.', $image['name']);
+                $name = reset($name);
+                $name = strtolower($name);
+                $name = slug($name) . "." . $file_ext;
+
+                //upload file if it does not exist
+                if (!file_exists($uploadPath . "" . $name)) {
+                    move_uploaded_file($file_tmp, $uploadPath . "" . $name);
+                }
+
+                $imagePath = $path . "" . $name;
+            }
+        }
+
+        return $imagePath;
     }
 }
