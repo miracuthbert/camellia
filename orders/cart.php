@@ -4,6 +4,9 @@ include_once("../helpers.php");
 include_once("../functions.php");
 unauthenticated();
 
+//check if cart is empty and redirect to menu
+cartEmpty();
+
 $foods = session_get('cart', 'items');
 
 ?>
