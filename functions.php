@@ -579,3 +579,42 @@ if (!function_exists('orderItems')) {
         return $rows;
     }
 }
+
+if (!function_exists('cancelExpired')) {
+    /**
+     * Cancel all orders that are past current date.
+     *
+     * @param null $user
+     * @return int
+     */
+    function cancelExpired($user = null)
+    {
+
+        global $con;
+
+        $rows = 0;
+
+        if(isset($user)) {
+            $id = auth()['id'];
+            $stmt = $con->prepare("UPDATE `orders` SET `expired_at` = CURRENT_TIMESTAMP WHERE `user_id` = ? AND `booked_at` < CURRENT_DATE");
+            $stmt->bind_param("i", $id);
+        } else {
+            $stmt = $con->prepare("UPDATE `orders` SET `expired_at` = CURRENT_TIMESTAMP WHERE `booked_at` < CURRENT_DATE");
+        }
+        $stmt->execute();
+
+        if ($stmt->affected_rows >= 1) {
+            $rows = $stmt->affected_rows;
+        }
+
+        $stmt->close();
+
+        return $rows;
+    }
+}
+
+/**
+ * call automated functions below
+ */
+//cancel all orders with booked_at less than current date
+cancelExpired();
