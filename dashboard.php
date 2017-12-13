@@ -64,11 +64,21 @@ $orders = userOrders();
                             </div>
                             <div class="col-sm-2">
                                 <ul class="list-inline">
-                                    <?php if (!isset($order['paid_at'])) { ?>
+                                    <?php if (!isset($order['paid_at']) && !isset($order['expired_at'])) { ?>
                                         <li>
-                                            <a href="">
+                                            <a class="btn btn-warning" href=""
+                                               onclick="event.preventDefault();document.getElementById('cancel-order-<?php echo $order["id"]; ?>-form').submit();">
                                                 Cancel Order
                                             </a>
+
+                                            <form id="cancel-order-<?php echo $order['id']; ?>-form" method="POST"
+                                                  action="<?php echo route("user/scripts/cancel_order.php?order={$order['id']}"); ?>"
+                                                  style="display: none;">
+
+                                                <input type="hidden" name="_id" id="_id"
+                                                       value="<?php echo $order['id']; ?>">
+                                                <input type="hidden" name="_method" id="_method" value="PUT">
+                                            </form>
                                         </li>
                                     <?php } ?>
                                 </ul>
