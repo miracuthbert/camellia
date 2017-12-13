@@ -59,9 +59,43 @@ if (!function_exists('userById')) {
     }
 }
 
+if (!function_exists('role')) {
+    /**
+     * Fetch passed role.
+     *
+     * @param $role
+     * @return array
+     */
+    function role($role)
+    {
+
+        global $con;
+
+        $row = [];
+
+        if (!isset($role)) {
+            return $row;
+        }
+
+        $stmt = $con->prepare("SELECT * FROM `roles` WHERE `id` = ? LIMIT 1");
+        $stmt->bind_param("i", $role);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows == 1) {
+            $row = $result->fetch_assoc();
+        }
+
+        $stmt->close();
+
+        return $row;
+    }
+}
+
 if (!function_exists('hasRoles')) {
     /**
      * Check if user has roles.
+     *
      * @param $user
      * @param null $role
      * @param bool $expired
@@ -71,12 +105,17 @@ if (!function_exists('hasRoles')) {
     {
         global $con;
 
-        //holds
+        //holds the return value
         $roleable = false;
 
-        if (isset($user)) {
+        //check if user is passed as an array or only the user's id
+        $user = isset($user['id']) ? $user['id'] : $user;
+
+        if (isset($user)) { //check if user not null
 
             if (isset($role)) { //with role
+
+                //holds a returned role result
                 $row = [];
 
                 //get role
@@ -88,7 +127,7 @@ if (!function_exists('hasRoles')) {
                 $result = $_stmt->get_result();
 
                 //check if role exists
-                if ($result->num_rows == 1) {
+                if ($result->num_rows == 1) {   //check if role exists and proceed
                     $row = $result->fetch_assoc();
 
                     if (($expired == true)) {   //with role but expired
@@ -98,7 +137,7 @@ if (!function_exists('hasRoles')) {
                     }
 
                     $stmt->bind_param("ii", $user, $row['id']);
-                } else {
+                } else {    //set roleable to false
                     $roleable = false;
                 }
 
@@ -134,8 +173,11 @@ if (!function_exists('getRoles')) {
     {
         global $con;
 
-        //holds
+        //holds returned rows
         $roles = [];
+
+        //check if user is passed as an array or only the user's id
+        $user = isset($user['id']) ? $user['id'] : $user;
 
         if (isset($user)) {
 
@@ -163,8 +205,8 @@ if (!function_exists('getRoles')) {
                     $stmt->bind_param("ii", $user, $row['id']);
                 }
 
-            } else {//default (has role and it has not expired)
-                $stmt = $con->prepare("SELECT * FROM `user_roles` WHERE `user_id` = ? AND `expired_at` IS NULL");
+            } else {//default (get all user's roles)
+                $stmt = $con->prepare("SELECT * FROM `user_roles` WHERE `user_id` = ?");
                 $stmt->bind_param("i", $user);
             }
 
