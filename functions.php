@@ -294,6 +294,21 @@ if (!function_exists('cartTotal')) {
     }
 }
 
+if (!function_exists('cartEmpty')) {
+    /**
+     * Checks if cart is empty and redirects to menu.
+     */
+    function cartEmpty()
+    {
+
+        if (!isset($_SESSION['cart']['items']) || count($_SESSION['cart']['items']) <= 0) {
+            $_SESSION['info'] = "Your cart is empty. Add at least one item first.";
+
+            return header("Location: " . route("orders/menu.php"));
+        }
+    }
+}
+
 if (!function_exists('food')) {
     /**
      * Fetch passed food.
