@@ -296,3 +296,31 @@ if (!function_exists('pendingOrders')) {
         return orders(['status' => "pending"]);
     }
 }
+
+if (!function_exists('users')) {
+    /**
+     * Fetch all users.
+     *
+     * @param array $parameter
+     * @return array|mixed
+     */
+    function users($parameter = [])
+    {
+
+        global $con;
+
+        $rows = [];
+
+        $stmt = $con->prepare("SELECT * FROM `users` ORDER BY `created_at` DESC");
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows >= 1) {
+            $rows = $result->fetch_all(MYSQLI_BOTH);
+        };
+
+        $stmt->close();
+
+        return $rows;
+    }
+}
