@@ -324,3 +324,30 @@ if (!function_exists('users')) {
         return $rows;
     }
 }
+
+if (!function_exists('roles')) {
+    /**
+     * Fetch all roles.
+     *
+     * @return array|mixed
+     */
+    function roles()
+    {
+
+        global $con;
+
+        $rows = [];
+
+        $stmt = $con->prepare("SELECT * FROM `roles` ORDER BY `name` ASC");
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows >= 1) {
+            $rows = $result->fetch_all(MYSQLI_BOTH);
+        };
+
+        $stmt->close();
+
+        return $rows;
+    }
+}
