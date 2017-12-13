@@ -7,11 +7,19 @@
     session_start();
 
     /**
+     * Directory Settings
+     */
+    define('DS', DIRECTORY_SEPARATOR);
+    define('ROOT', dirname(dirname(__FILE__)));
+
+
+    /**
      * App Settings
      */
     define("APP_NAME", "Camellia Restaurant");
     define("APP_CURRENCY", "Rwf.");
     define("APP_URL", "/camellia");
+    define("APP_DIR", "camellia");
 
     /**
      * Database Settings
