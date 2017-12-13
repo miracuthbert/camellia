@@ -46,7 +46,7 @@ $users = users();
                                 <?php foreach ($users as $user) { ?>
                                     <tr>
                                         <td>
-                                            <a href="<?php echo route("admin/users/view.php?user={$user['user_id']}") ?>">
+                                            <a href="<?php echo route("admin/users/edit.php?user={$user['id']}") ?>">
                                                 <?php echo $user['first_name'] . ' ' . $user['last_name']; ?>
                                             </a>
                                         </td>
