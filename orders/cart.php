@@ -44,13 +44,12 @@ $foods = session_get('cart', 'items');
                             <?php foreach ($foods as $key => $food) { ?>
                                 <div class="form-group">
                                     <div class="col-sm-2">
-                                        <img class="media-object" src="<?php echo $food['image']; ?>" alt="image"
-                                             class="img-responsive">
+                                        <img src="<?php echo route($food['image']); ?>"
+                                             alt="<?php echo $food['name']; ?> image" width="100px" height="70px">
                                     </div>
                                     <div class="col-sm-3">
-                                        <h4 data-toggle="tooltip" title="<?php echo $food['details']; ?>">
+                                        <h4 title="<?php echo $food['name']; ?>">
                                             <?php echo $food['name']; ?>
-                                            <i class="fa fa-info"></i>
                                         </h4>
                                     </div>
                                     <div class="col-sm-2">
@@ -102,7 +101,8 @@ $foods = session_get('cart', 'items');
                                         <i class="fa fa-refresh"></i> Update Cart
                                     </button>
 
-                                    <button type="submit" name="storeCart" class="btn btn-primary" style="margin-right: 7px;" value="1">
+                                    <button type="submit" name="storeCart" class="btn btn-primary"
+                                            style="margin-right: 7px;" value="1">
                                         <i class="fa fa-check"></i> Submit Order
                                     </button>
                                 </div>

@@ -26,14 +26,24 @@ $foods = foods();
 
                 <div class="row">
                     <?php foreach ($foods as $food) { ?>
-                        <div class="col-sm-4">
+                        <div class="col-sm-4" style="margin-top: 25px;padding: 25px 50px;">
                             <form id="food-<?php echo $food['id']; ?>" class="text-center" method="POST"
                                   action="<?php echo route('orders/scripts/add_to_cart.php'); ?>"
                                   enctype="application/x-www-form-urlencoded">
                                 <input type="hidden" name="order" value="<?php echo $food['id']; ?>">
 
-                                <img class="media-object" src="<?php echo $food['image']; ?>" alt="image"
-                                     class="img-responsive">
+                                <?php if (!isset($food['image'])) { ?>
+                                    <div class="text-center"
+                                         style="width: 250px; height: 150px; border-radius: 100%; position: relative">
+                                        <span style="position: absolute; top: 30%;">
+                                            <?php echo $food['name']; ?> image
+                                        </span>
+                                    </div>
+                                <?php } else { ?>
+                                    <img src="<?php echo route($food['image']); ?>"
+                                         alt="<?php echo $food['name']; ?> image"
+                                         class="text-center img-circle" width="250px" height="150px">
+                                <?php } ?>
 
                                 <div class="form-group">
                                     <h4 data-toggle="tooltip" title="<?php echo $food['details']; ?>">
@@ -56,10 +66,10 @@ $foods = foods();
                                                value="1">
 
                                         <span class="input-group-btn">
-                                       <button type="submit" class="btn btn-success pull-right">
-                                            <i class="fa fa-cart-plus"></i> Add to Cart
-                                        </button>
-                                    </span>
+                                           <button type="submit" class="btn btn-success pull-right">
+                                                <i class="fa fa-cart-plus"></i> Add to Cart
+                                            </button>
+                                        </span>
                                     </div>
                                 </div>
                             </form>
@@ -72,18 +82,5 @@ $foods = foods();
 </div>
 
 <?php include_once('../partials/_scripts.php') ?>
-<script>
-    $(document).on('order-quantity', 'focus', (event)
-    {
-        var $this = $(this);
-
-        var food = $this.attr('data-target');
-
-        //check food of focused quanntity
-        $(food).prop('checked', true);
-    }
-    )
-    ;
-</script>
 </body>
 </html>
