@@ -35,9 +35,9 @@ $foods = session_get('cart', 'items');
                                 <div class="col-sm-2"></div>
                                 <div class="col-sm-3"><strong>Name</strong></div>
                                 <div class="col-sm-2"><strong>Price</strong></div>
-                                <div class="col-sm-2"><strong>Qty.</strong></div>
+                                <div class="col-sm-1"><strong>Qty.</strong></div>
                                 <div class="col-sm-2"><strong>Total</strong></div>
-                                <div class="col-sm-1"></div>
+                                <div class="col-sm-2"></div>
                             </div>
                             <hr>
 
@@ -55,19 +55,22 @@ $foods = session_get('cart', 'items');
                                     <div class="col-sm-2">
                                         <?php echo APP_CURRENCY; ?> <strong><?php echo $food['price']; ?></strong>
                                     </div>
-                                    <div class="col-sm-2">
+                                    <div class="col-sm-1">
                                         <input type="number" name="order_quantity[]"
                                                id="food-<?php echo $food['id']; ?>"
-                                               class="form-control" value="<?php echo $food['qty']; ?>">
+                                               class="form-control" value="<?php echo $food['qty']; ?>" min="1" max="20">
                                     </div>
                                     <div class="col-sm-2">
                                         <?php echo APP_CURRENCY; ?>
                                         <strong><?php echo $food['totalPrice']; ?></strong>
                                     </div>
-                                    <div class="col-sm-1">
+                                    <div class="col-sm-2">
                                         <input type="hidden" name="order[]" id="food-<?php echo $food['id']; ?>"
                                                value="<?php echo $food['id']; ?>">
-                                        <a href="">Remove</a>
+                                        <a class="btn btn-warning" href=""
+                                           onclick="event.preventDefault();document.getElementById('remove-<?php echo $food["id"]; ?>-food-form').submit();">
+                                            <i class="fa fa-remove"></i> Remove
+                                        </a>
                                     </div>
                                 </div>
                             <?php } ?>
@@ -75,7 +78,7 @@ $foods = session_get('cart', 'items');
 
                         <div class="panel-footer">
                             <div class="row">
-                                <div class="col-sm-3 col-sm-offset-9">
+                                <div class="col-sm-4 col-sm-offset-8">
                                     <?php echo APP_CURRENCY; ?> <strong><?php echo cartTotal(); ?></strong>
                                 </div>
                             </div>
@@ -116,6 +119,16 @@ $foods = session_get('cart', 'items');
                       action="<?php echo route('orders/scripts/empty_cart.php'); ?>" method="POST"
                       style="display: none;">
                 </form>
+
+                <!-- Create Individual Forms to Remove Foods from Cart -->
+                <?php foreach ($foods as $key => $food) { ?>
+                    <!-- Remove Food Form -->
+                    <form id="remove-<?php echo $food['id']; ?>-food-form"
+                          action="<?php echo route('orders/scripts/remove_from_cart.php'); ?>" method="POST"
+                          style="display: none;">
+                        <input type="hidden" name="id" value="<?php echo $food['id']; ?>">
+                    </form>
+                <?php } ?>
             </div>
         </div>
     </div>
