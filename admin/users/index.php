@@ -27,7 +27,7 @@ $users = users();
 
             <div class="col-sm-9">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Orders</div>
+                    <div class="panel-heading">Users</div>
 
                     <?php if (isset($users) && (count($users) > 0)) { ?>
                         <!-- Table -->
