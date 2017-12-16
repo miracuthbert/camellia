@@ -6,9 +6,8 @@
             <li><a href="<?php echo route("admin/dashboard.php"); ?>">Dashboard</a></li>
             <li>
                 <a href="<?php echo route('admin/orders/index.php'); ?>">
-                    Orders <span class="badge">
-                        <?php echo count(pendingOrders()) > 0 ? count(pendingOrders()) : ''; ?>
-                    </span>
+                    Orders
+                    <span class="badge"><?php echo count(pendingOrders()) > 0 ? count(pendingOrders()) : ''; ?></span>
                 </a>
             </li>
             <li role="separator" class="nav-divider"></li>
