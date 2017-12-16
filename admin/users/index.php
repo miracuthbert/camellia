@@ -68,7 +68,7 @@ $users = users();
                                                     </li>
                                                 <?php } else { ?>
                                                     <li>
-                                                        <a href="<?php echo route("admin/users/create.php?user={$user['id']}") ?>">
+                                                        <a href="<?php echo route("admin/roles/edit.php?user={$user['id']}") ?>">
                                                             Assign Role(s)
                                                         </a>
                                                     </li>
