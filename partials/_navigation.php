@@ -47,8 +47,10 @@
                                 <li>
                                     <a href="<?php echo route("admin/dashboard.php"); ?>">Admin Panel</a>
                                 </li>
+                                <li role="separator" class="divider"></li>
                             <?php } ?>
                             <li><a href="<?php echo route("dashboard.php"); ?>">My Dashboard</a></li>
+                            <li><a href="<?php echo route("user/profile.php"); ?>">My Profile</a></li>
                             <li role="separator" class="divider"></li>
                             <li>
                                 <a href="<?php echo route("logout.php"); ?>"
