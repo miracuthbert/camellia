@@ -27,6 +27,8 @@ $user = auth();
                         <form class="form-horizontal" method="POST"
                               action="<?php echo route('user/scripts/update_profile.php'); ?>">
 
+                            <input type="hidden" name="id" id="id" value="<?php echo $user['id']; ?>">
+
                             <!-- Use session has to check if field has an error then add `has-error` class -->
                             <div class="form-group<?php echo session_has('errors', 'first_name') ? ' has-error' : ''; ?>">
                                 <label for="first_name" class="col-md-4 control-label">First Name</label>
