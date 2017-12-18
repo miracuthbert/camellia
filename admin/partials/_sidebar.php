@@ -11,6 +11,7 @@
                         <a href="<?php echo route('admin/meals/create.php'); ?>">Meal/Beverage</a>
                         <a href="">User</a>
                         <a href="<?php echo route('admin/pages/create.php'); ?>">Page</a>
+                        <a href="<?php echo route('admin/posts/create.php'); ?>">Post</a>
                     </li>
                 </ul>
             </li>
@@ -28,6 +29,7 @@
             <!-- Pages and Posts -->
             <li role="separator" class="nav-divider"></li>
             <li><a href="<?php echo route('admin/pages/index.php'); ?>">Pages</a></li>
+            <li><a href="<?php echo route('admin/posts/index.php'); ?>">Posts</a></li>
 
             <!-- Foods -->
             <li role="separator" class="nav-divider"></li>
