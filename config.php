@@ -20,9 +20,18 @@
     define("APP_CURRENCY", "Rwf.");
     define("APP_URL", "/camellia");
     define("APP_DIR", "camellia");
+
+    //default user password when added from admin
+    define("DEFAULT_USER_PASSWORD", "secret");
+
+    //default pages to be after database is created
     define("DEFAULT_PAGES", 'home, about, help');
+
+    //default page which posts can be displayed on
     define("DEFAULT_POSTS_PAGE", 'help');
-    define("DEFAULT_CATEGORIES", 'meals, drinks');
+
+    //default food and posts categories to be created when database is created
+    define("DEFAULT_CATEGORIES", 'meals, drinks, posts');
 
     /**
      * Database Settings
