@@ -14,7 +14,7 @@
                     </li>
                     <?php if (hasRoles(auth(), "admin")) { ?>
                         <li>
-                            <a href="">User</a>
+                            <a href="<?php echo route('admin/roles/create.php'); ?>">User</a>
                         </li>
                     <?php } ?>
                     <li>
