@@ -114,6 +114,61 @@ $user = auth();
                         </form>
                     </div>
                 </div>
+                <hr>
+                <div class="panel panel-default">
+                    <div class="panel-heading">Change Password</div>
+
+                    <div class="panel-body">
+                        <form class="form-horizontal" method="POST"
+                              action="<?php echo route('user/scripts/update_password.php'); ?>">
+
+                            <input type="hidden" name="id" id="id" value="<?php echo $user['id']; ?>">
+
+                            <div class="form-group<?php echo session_has('errors', 'new_password') ? ' has-error' : ''; ?>">
+                                <label for="new_password" class="col-md-4 control-label">New Password</label>
+
+                                <div class="col-md-6">
+                                    <input id="new_password" type="password" class="form-control" name="new_password" required>
+
+                                    <?php if (session_has('errors', 'new_password')) ; ?>
+                                    <span class="help-block">
+                                        <strong><?php echo session_pop('errors', 'new_password'); ?></strong>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
+
+                                <div class="col-md-6">
+                                    <input id="password-confirm" type="password" class="form-control"
+                                           name="password_confirmation" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group<?php echo session_has('errors', 'old_password') ? ' has-error' : ''; ?>">
+                                <label for="old_password" class="col-md-4 control-label">Password</label>
+
+                                <div class="col-md-6">
+                                    <input id="old_password" type="password" class="form-control" name="old_password" required>
+
+                                    <?php if (session_has('errors', 'old_password')) ; ?>
+                                    <span class="help-block">
+                                        <strong><?php echo session_pop('errors', 'old_password'); ?></strong>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-6 col-md-offset-4">
+                                    <button type="submit" class="btn btn-primary">
+                                        Save
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
