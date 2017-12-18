@@ -20,8 +20,20 @@ if (!function_exists('unauthenticated')) {
      */
     function unauthenticated()
     {
-        if (!auth_check()) {
+        if (!auth_check()) {    //if no login details in session redirect to login
             return header("Location: " . route("auth/login.php"));
+        } else {
+            //check if user in session exists in database
+            $user = userById(auth()['id']);
+
+            if(!isset($user['id'])) {   //destroy session then redirect to login with info
+                session_destroy();
+                session_start();
+
+                $_SESSION['info'] = "Sorry your session has ended. Please login first!";
+
+                return header("Location: " . route("auth/login.php"));
+            }
         }
     }
 }
@@ -171,11 +183,9 @@ if (!function_exists('postsByPage')) {
     /**
      * Fetch all posts of given page.
      *
-     * @param $page
-     * @param bool $status
      * @return array|mixed
      */
-    function postsByPage($page, $status = true)
+    function posts($page, $status = true)
     {
 
         global $con;
