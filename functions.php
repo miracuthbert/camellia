@@ -59,6 +59,114 @@ if (!function_exists('page')) {
     }
 }
 
+if (!function_exists('pageById')) {
+    /**
+     * Fetch page by id.
+     *
+     * @param $id
+     * @return array
+     */
+    function pageById($id)
+    {
+
+        global $con;
+
+        $row = [];
+
+        if (!isset($id)) {
+            return $row;
+        }
+
+        $stmt = $con->prepare("SELECT * FROM `pages` WHERE `id` = ? LIMIT 1");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows == 1) {
+            $row = $result->fetch_assoc();
+        }
+
+        $stmt->close();
+
+        return $row;
+    }
+}
+
+if (!function_exists('categoryById')) {
+    /**
+     * Fetch category by id.
+     *
+     * @param $id
+     * @return array
+     */
+    function categoryById($id)
+    {
+
+        global $con;
+
+        $row = [];
+
+        if (!isset($id)) {
+            return $row;
+        }
+
+        $stmt = $con->prepare("SELECT * FROM `categories` WHERE `id` = ? LIMIT 1");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows == 1) {
+            $row = $result->fetch_assoc();
+        }
+
+        $stmt->close();
+
+        return $row;
+    }
+}
+
+if (!function_exists('postById')) {
+    /**
+     * Fetch post by id.
+     *
+     * @param $id
+     * @param null $status
+     * @return array
+     */
+    function postById($id, $status = null)
+    {
+
+        global $con;
+
+        $row = [];
+
+        if (!isset($id)) {
+            return $row;
+        }
+
+        if(isset($status)) {
+            $status = $status == true ? 1 : 0;
+
+            $stmt = $con->prepare("SELECT * FROM `posts` WHERE `id` = ? AND `status` = ? LIMIT 1");
+            $stmt->bind_param("id", $id, $status);
+        } else {
+            $stmt = $con->prepare("SELECT * FROM `posts` WHERE `id` = ? LIMIT 1");
+            $stmt->bind_param("i", $id);
+        }
+
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows == 1) {
+            $row = $result->fetch_assoc();
+        }
+
+        $stmt->close();
+
+        return $row;
+    }
+}
+
 if (!function_exists('userById')) {
     /**
      * Fetch passed user.
