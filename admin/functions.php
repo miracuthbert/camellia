@@ -26,9 +26,6 @@ if (!function_exists('categories')) {
             $stmt->execute();
             $result = $stmt->get_result();
 
-            if ($result->num_rows === 0) {
-                exit("Category with slug `{$slug}` not found.");
-            };
             $meal = $result->fetch_assoc();
             $stmt->close();
 
@@ -71,16 +68,14 @@ if (!function_exists('category')) {
 
         }
 
-        $stmt = $con->prepare("SELECT * FROM `categories` WHERE `slug` = ? ORDER BY `created_at` DESC");
+        $stmt = $con->prepare("SELECT * FROM `categories` WHERE `slug` = ? LIMIT 1");
         $stmt->bind_param("s", $slug);
         $stmt->execute();
         $result = $stmt->get_result();
 
         if ($result->num_rows == 1) {
             $row = $result->fetch_assoc();
-        } else {
-            die('Page not found.');
-        };
+        }
 
         $stmt->close();
 
@@ -368,6 +363,69 @@ if (!function_exists('pages')) {
         $rows = [];
 
         $stmt = $con->prepare("SELECT * FROM `pages` ORDER BY `name` ASC");
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows >= 1) {
+            $rows = $result->fetch_all(MYSQLI_BOTH);
+        };
+
+        $stmt->close();
+
+        return $rows;
+    }
+}
+
+if (!function_exists('posts')) {
+    /**
+     * Fetch all posts.
+     *
+     * @return array|mixed
+     */
+    function posts()
+    {
+
+        global $con;
+
+        $rows = [];
+
+        $stmt = $con->prepare("SELECT * FROM `posts` ORDER BY `created_at` DESC");
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows >= 1) {
+            $rows = $result->fetch_all(MYSQLI_BOTH);
+        };
+
+        $stmt->close();
+
+        return $rows;
+    }
+}
+
+if (!function_exists('postPages')) {
+    /**
+     * Fetch all post pages.
+     *
+     * @return array|mixed
+     */
+    function postPages()
+    {
+
+        global $con;
+
+        $rows = [];
+
+        $fullArr = explode(",", DEFAULT_POSTS_PAGE); //add default pages in WHERE IN array
+        $clause = implode(',', array_fill(0, count($fullArr), '?')); //create `x` question marks
+        $types = str_repeat('s', count($fullArr)); //create `x` ints for bind_param
+
+        $stmt = $con->prepare("SELECT  * 
+                                    FROM `pages` 
+                                      WHERE `slug` IN ($clause) 
+                                        AND `slug` IS NOT NULL 
+                                      ORDER BY `created_at` DESC");
+        $stmt->bind_param($types, ...$fullArr);
         $stmt->execute();
         $result = $stmt->get_result();
 
