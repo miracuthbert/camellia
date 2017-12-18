@@ -9,6 +9,7 @@ unauthenticated();
 $order = $_GET['order'];
 
 $order = order($order);
+$user = userById($order['user_id']);
 $foods = orderItems($order['id']);
 $payment = orderPayment($order['id']);
 $cashier = isset($payment['user_id']) ? userById($payment['user_id']) : '';
@@ -42,6 +43,16 @@ $cashier = isset($payment['user_id']) ? userById($payment['user_id']) : '';
                             <input type="hidden" name="_method" id="_method" value="PUT">
 
                             <div class="form-group">
+                                <label for="name" class="col-md-4 control-label">Ordered by</label>
+
+                                <div class="col-md-6">
+                                    <p class="form-control-static">
+                                        <?php echo "{$user['first_name']}" .' '. "{$user['last_name']}"; ?>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label for="name" class="col-md-4 control-label">Pickup/Delivery Date</label>
 
                                 <div class="col-md-6">
@@ -73,27 +84,40 @@ $cashier = isset($payment['user_id']) ? userById($payment['user_id']) : '';
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label for="name" class="col-md-4 control-label">Paid At</label>
 
-                                <div class="col-md-6">
-                                    <p class="form-control-static"><?php echo $order['paid_at']; ?></p>
+                            <?php if (!isset($order['paid_at'])) { ?>
+                                <div class="form-group">
+                                    <label for="name" class="col-md-4 control-label">Cancelled At</label>
+
+                                    <div class="col-md-6">
+                                        <p class="form-control-static"><?php echo $order['expired_at']; ?></p>
+                                    </div>
                                 </div>
-                            </div>
+                            <?php } ?>
 
-                            <div class="form-group">
-                                <label for="name" class="col-md-4 control-label">Processed by</label>
+                            <?php if (!isset($order['expired_at'])) { ?>
+                                <div class="form-group">
+                                    <label for="name" class="col-md-4 control-label">Paid At</label>
 
-                                <div class="col-md-6">
-                                    <p class="form-control-static">
-                                        <?php echo isset($cashier['id']) ? $cashier['first_name'] . ' ' . $cashier['last_name'] : ''; ?>
-                                    </p>
+                                    <div class="col-md-6">
+                                        <p class="form-control-static"><?php echo $order['paid_at']; ?></p>
+                                    </div>
                                 </div>
-                            </div>
+
+                                <div class="form-group">
+                                    <label for="name" class="col-md-4 control-label">Processed by</label>
+
+                                    <div class="col-md-6">
+                                        <p class="form-control-static">
+                                            <?php echo isset($cashier['id']) ? $cashier['first_name'] . ' ' . $cashier['last_name'] : ''; ?>
+                                        </p>
+                                    </div>
+                                </div>
+                            <?php } ?>
 
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
-                                    <?php if (!isset($order['paid_at'])) { ?>
+                                    <?php if (!isset($order['paid_at']) && !isset($order['expired_at'])) { ?>
                                         <button type="submit" class="btn btn-primary">
                                             Mark as Paid
                                         </button>
@@ -128,8 +152,8 @@ $cashier = isset($payment['user_id']) ? userById($payment['user_id']) : '';
                                     <tbody>
                                     <tr>
                                         <td>
-                                            <img class="media-object" src="<?php echo $food['image']; ?>" alt="image"
-                                                 class="img-responsive">
+                                            <img src="<?php echo route($food['image']); ?>" alt="image"
+                                                 width="100px" height="100px">
                                         </td>
                                         <td>
                                             <h4 data-toggle="tooltip" title="<?php echo $food['details']; ?>">

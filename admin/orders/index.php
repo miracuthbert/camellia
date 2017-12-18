@@ -77,7 +77,7 @@ $orders = orders();
                                                     View
                                                 </a>
                                             </li>
-                                            <?php if (!isset($order['paid_at'])) { ?>
+                                            <?php if (!isset($order['paid_at']) && !isset($order['expired_at'])) { ?>
                                                 <li>
                                                     <a href="<?php echo route("admin/orders/scripts/update_paid_at.php?order={$order['id']}"); ?>"
                                                        onclick="event.preventDefault();
