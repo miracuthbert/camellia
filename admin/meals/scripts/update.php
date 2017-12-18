@@ -28,11 +28,11 @@
             $_SESSION['errors']['price'] = "Price is required.";
         }
 
-        if (!required($category)) {
+        if ($category == "") {
             $_SESSION['errors']['category'] = "Category is required.";
         }
 
-        if (!required($details)) {
+        if ($details == "") {
             $_SESSION['errors']['details'] = "Details is required.";
         }
 
@@ -41,7 +41,7 @@
         }
 
         //check if image is not null
-        if(isset($image)) {
+        if ($image['name'] != "") {
             //image upload
             $imagePath = imageUpload($image, "foods");
         }
@@ -71,15 +71,12 @@
             return header("Location: " . route('admin/meals/index.php'));
         }
 
-        //TODO: Comment line below if you want clean error
-//        $error = $stmt->error;
-
         //error
         $_SESSION['info'] = "No changes made.";
 
         $stmt->close();
 
-        //back to create with error
+        //back to edit with error
         return header("Location: " . route("admin/meals/edit.php?meal={$id}"));
 
     }

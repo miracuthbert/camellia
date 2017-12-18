@@ -26,11 +26,11 @@ if (isset($_POST)) {
         $_SESSION['errors']['price'] = "Price is required.";
     }
 
-    if (!required($category)) {
+    if ($category == "") {
         $_SESSION['errors']['category'] = "Category is required.";
     }
 
-    if (!required($details)) {
+    if ($details == "") {
         $_SESSION['errors']['details'] = "Details is required.";
     }
 
@@ -39,7 +39,7 @@ if (isset($_POST)) {
     }
 
     //check if image is not null
-    if(isset($image)) {
+    if ($image['name'] != "") {
         //image upload
         $imagePath = imageUpload($image, "foods");
     }
@@ -68,9 +68,6 @@ if (isset($_POST)) {
         //redirect to index with success
         return header("Location: " . route('admin/meals/index.php'));
     }
-
-    //TODO: Comment line below if on production env
-//    die(printf($stmt->error));
 
     $stmt->close();
 
