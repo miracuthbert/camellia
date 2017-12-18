@@ -8,9 +8,19 @@
                 <ul class="dropdown-menu pull-right">
                     <li>
                         <a href="<?php echo route('admin/categories/create.php'); ?>">Category</a>
+                    </li>
+                    <li>
                         <a href="<?php echo route('admin/meals/create.php'); ?>">Meal/Beverage</a>
-                        <a href="">User</a>
+                    </li>
+                    <?php if (hasRoles(auth(), "admin")) { ?>
+                        <li>
+                            <a href="">User</a>
+                        </li>
+                    <?php } ?>
+                    <li>
                         <a href="<?php echo route('admin/pages/create.php'); ?>">Page</a>
+                    </li>
+                    <li>
                         <a href="<?php echo route('admin/posts/create.php'); ?>">Post</a>
                     </li>
                 </ul>
@@ -37,10 +47,12 @@
             <li><a href="<?php echo route('admin/meals/index.php'); ?>">Meals</a></li>
             <li><a href="<?php echo route('admin/meals/index.php?category=drinks'); ?>">Beverages</a></li>
 
-            <!-- Users & Roles -->
-            <li role="separator" class="nav-divider"></li>
-            <li><a href="">Roles</a></li>
-            <li><a href="<?php echo route('admin/users/index.php'); ?>">Users</a></li>
+            <!-- Users & Roles - Accessible by `Admin` Role Holders Only -->
+            <?php if (hasRoles(auth(), "admin")) { ?>
+                <li role="separator" class="nav-divider"></li>
+                <!--            <li><a href="">Roles</a></li>-->
+                <li><a href="<?php echo route('admin/users/index.php'); ?>">Users</a></li>
+            <?php } ?>
         </ul>
     </div>
 </div>

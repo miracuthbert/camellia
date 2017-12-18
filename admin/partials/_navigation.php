@@ -40,8 +40,20 @@
                         <ul class="dropdown-menu pull-right">
                             <li>
                                 <a href="<?php echo route('admin/categories/create.php'); ?>">Category</a>
-                                <a href="<?php echo route('admin/meals/create.php'); ?>">Meal/Beverages</a>
-                                <a href="">User</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo route('admin/meals/create.php'); ?>">Meal/Beverage</a>
+                            </li>
+                            <?php if (hasRoles(auth(), "admin")) { ?>
+                                <li>
+                                    <a href="">User</a>
+                                </li>
+                            <?php } ?>
+                            <li>
+                                <a href="<?php echo route('admin/pages/create.php'); ?>">Page</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo route('admin/posts/create.php'); ?>">Post</a>
                             </li>
                         </ul>
                     </li>
