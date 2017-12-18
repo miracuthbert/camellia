@@ -26,9 +26,6 @@ if (isset($_POST) && (isset($_POST['_method']) && ($_POST['_method'] == "PUT")))
         return header("Location: " . route('admin/meals/index.php'));
     }
 
-    //TODO: Comment line below if on production env
-    die(printf($stmt->error));
-
     $stmt->close();
 
 }

@@ -27,11 +27,7 @@
             return header("Location: " . route('admin/categories/index.php'));
         }
 
-        //TODO: Comment line below if on production env
-        die(printf($stmt->error));
-
         $stmt->close();
-
     }
 
 //error
