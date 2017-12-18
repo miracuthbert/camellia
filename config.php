@@ -20,6 +20,15 @@
     define("APP_CURRENCY", "Rwf.");
     define("APP_URL", "/camellia");
     define("APP_DIR", "camellia");
+    define("DEFAULT_PAGES", [
+        'home',
+        'about',
+        'help'
+    ]);
+    define("DEFAULT_CATEGORIES", [
+        'meals',
+        'drinks',
+    ]);
 
     /**
      * Database Settings
