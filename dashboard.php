@@ -31,8 +31,11 @@ $orders = userOrders();
                         <div class="col-sm-3">
                             <strong>Pickup/Delivery Date</strong>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-2">
                             <strong>Created At Date</strong>
+                        </div>
+                        <div class="col-sm-1">
+                            <strong>Status</strong>
                         </div>
                         <div class="col-sm-2">
                             <strong>Items</strong>
@@ -52,8 +55,17 @@ $orders = userOrders();
                                     <?php echo $order['booked_at']; ?>
                                 </a>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <?php echo $order['created_at']; ?>
+                            </div>
+                            <div class="col-sm-1">
+                                <?php if (isset($order['paid_at'])) { ?>
+                                    <span class="label label-success">Paid</span>
+                                <?php } elseif(isset($order['expired_at'])) { ?>
+                                    <span class="label label-danger">Cancelled</span>
+                                <?php } else { ?>
+                                    <span class="label label-warning">Pending</span>
+                                <?php } ?>
                             </div>
                             <div class="col-sm-2">
                                 <span class="lead"><?php echo orderItemsCount($order['id']); ?></span>
