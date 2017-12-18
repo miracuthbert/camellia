@@ -438,3 +438,42 @@ if (!function_exists('postPages')) {
         return $rows;
     }
 }
+
+
+if (!function_exists('isAdmin')) {
+    /**
+     * Check if user has role and it is not expired else redirect to dashboard if logged.
+     * else
+     * Redirect unauthenticated users to log in.
+     */
+    function isAdmin()
+    {
+        if (!isset($_SESSION['user'])) {    //if no login details in session redirect to login
+            return header("Location: " . route("auth/login.php"));
+        } else {
+            //check if user in session exists in database
+            $user = userById($_SESSION['user']['id']);
+
+            if(!isset($user['id'])) {   //destroy session then redirect to login with info
+                session_destroy();
+                session_start();
+
+                $_SESSION['info'] = "Sorry your session has ended. Please login first!";
+
+                return header("Location: " . route("auth/login.php"));
+            } else {
+                $roles = hasRoles($user);   //check if user has roles and not expired
+
+                if($roles == false) {    //if user has no roles redirect to dashboard
+                    return header("Location: " . route("dashboard.php"));
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Call Admin Global Functions Here
+ */
+//check if user has no roles and redirect
+isAdmin();
