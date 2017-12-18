@@ -351,3 +351,32 @@ if (!function_exists('roles')) {
         return $rows;
     }
 }
+
+if (!function_exists('pages')) {
+    /**
+     * Fetch all pages.
+     *
+     * @param null $status
+     * @param null $parent
+     * @return array|mixed
+     */
+    function pages($status = null, $parent = null)
+    {
+
+        global $con;
+
+        $rows = [];
+
+        $stmt = $con->prepare("SELECT * FROM `pages` ORDER BY `name` ASC");
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows >= 1) {
+            $rows = $result->fetch_all(MYSQLI_BOTH);
+        };
+
+        $stmt->close();
+
+        return $rows;
+    }
+}
