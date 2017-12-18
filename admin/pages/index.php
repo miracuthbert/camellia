@@ -71,8 +71,8 @@ $pages = pages();
                                                           method="POST"
                                                           style="display: none;">
 
-                                                        <input type="hidden" name="_id"
-                                                               value="<?php echo $page['id']; ?>">
+                                                        <input type="hidden" name="_slug"
+                                                               value="<?php echo $page['slug']; ?>">
                                                         <input type="hidden" name="status"
                                                                value="<?php echo !$page['status']; ?>">
                                                         <input type="hidden" name="_method" id="_method" value="PUT">
