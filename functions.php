@@ -144,7 +144,7 @@ if (!function_exists('postById')) {
             return $row;
         }
 
-        if(isset($status)) {
+        if (isset($status)) {
             $status = $status == true ? 1 : 0;
 
             $stmt = $con->prepare("SELECT * FROM `posts` WHERE `id` = ? AND `status` = ? LIMIT 1");
@@ -164,6 +164,36 @@ if (!function_exists('postById')) {
         $stmt->close();
 
         return $row;
+    }
+}
+
+if (!function_exists('postsByPage')) {
+    /**
+     * Fetch all posts of given page.
+     *
+     * @param $page
+     * @param bool $status
+     * @return array|mixed
+     */
+    function postsByPage($page, $status = true)
+    {
+
+        global $con;
+
+        $rows = [];
+
+        $stmt = $con->prepare("SELECT * FROM `posts` WHERE `page_id` = ? AND `status` = ? ORDER BY `created_at` DESC");
+        $stmt->bind_param("id", $page, $status);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows >= 1) {
+            $rows = $result->fetch_all(MYSQLI_BOTH);
+        };
+
+        $stmt->close();
+
+        return $rows;
     }
 }
 
@@ -780,7 +810,7 @@ if (!function_exists('cancelExpired')) {
 
         $rows = 0;
 
-        if(isset($user)) {
+        if (isset($user)) {
             $id = auth()['id'];
             $stmt = $con->prepare("UPDATE `orders` SET `expired_at` = CURRENT_TIMESTAMP WHERE `user_id` = ? AND `booked_at` < CURRENT_DATE");
             $stmt->bind_param("i", $id);
