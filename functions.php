@@ -766,10 +766,10 @@ if (!function_exists('cancelExpired')) {
 
         if (isset($user)) {
             $id = auth()['id'];
-            $stmt = $con->prepare("UPDATE `orders` SET `expired_at` = CURRENT_TIMESTAMP WHERE `user_id` = ? AND `booked_at` < CURRENT_DATE");
+            $stmt = $con->prepare("UPDATE `orders` SET `expired_at` = CURRENT_TIMESTAMP WHERE `user_id` = ? AND `booked_at` < CURRENT_DATE AND `paid_at` IS NULL");
             $stmt->bind_param("i", $id);
         } else {
-            $stmt = $con->prepare("UPDATE `orders` SET `expired_at` = CURRENT_TIMESTAMP WHERE `booked_at` < CURRENT_DATE");
+            $stmt = $con->prepare("UPDATE `orders` SET `expired_at` = CURRENT_TIMESTAMP WHERE `booked_at` < CURRENT_DATE AND `paid_at` IS NULL");
         }
         $stmt->execute();
 
