@@ -26,6 +26,39 @@ if (!function_exists('unauthenticated')) {
     }
 }
 
+if (!function_exists('page')) {
+    /**
+     * Fetch page by slug.
+     *
+     * @param $slug
+     * @return array
+     */
+    function page($slug)
+    {
+
+        global $con;
+
+        $row = [];
+
+        if (!isset($slug)) {
+            return $row;
+        }
+
+        $stmt = $con->prepare("SELECT * FROM `pages` WHERE `slug` = ? LIMIT 1");
+        $stmt->bind_param("s", $slug);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows == 1) {
+            $row = $result->fetch_assoc();
+        }
+
+        $stmt->close();
+
+        return $row;
+    }
+}
+
 if (!function_exists('userById')) {
     /**
      * Fetch passed user.
