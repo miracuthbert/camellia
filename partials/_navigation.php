@@ -22,7 +22,7 @@
             <ul class="nav navbar-nav">
                 <li><a href="<?php echo route(''); ?>">Home</a></li>&nbsp;
                 <li><a href="<?php echo route("about.php"); ?>">About</a></li>
-                <li><a href="<?php echo route("contact.php"); ?>">Contact</a></li>
+                <li><a href="<?php echo route("help.php"); ?>">Help</a></li>
             </ul>
 
             <!-- Right Side Of Navbar -->
